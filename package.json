@@ -1,0 +1,52 @@
+{
+  "name": "gloup",
+  "description": "Mini task runner based on bach",
+  "version": "1.0.0",
+  "author": "Jean Ponchon <jean.ponchon@novadiscovery.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nopnop/gloup.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nopnop/gloup/issues"
+  },
+  "homepage": "https://github.com/nopnop/gloup/htmly",
+  "licenses": "MIT",
+  "main": "lib/gloup",
+  "engines": {
+    "node": ">= 0.12"
+  },
+  "scripts": {
+    "standard": "./node_modules/.bin/standard",
+    "prepublish": "babel src --out-dir lib"
+  },
+  "dependencies": {
+    "bach": "^0.4.1",
+    "bluebird": "^2.9.25",
+    "debug": "^2.2.0",
+    "globby": "^2.0.0",
+    "minimist": "^1.1.1",
+    "node-dev": "^2.6.1"
+  },
+  "devDependencies": {
+    "babel": "^5.2.17",
+    "expect.js": "*",
+    "jshint": "*",
+    "mocha": "*"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org/"
+  },
+  "keywords": [
+    "tasks",
+    "parallel",
+    "series",
+    "promise",
+    "stream"
+  ],
+  "standard": {
+    "ignore": [
+      "**/lib/**"
+    ]
+  }
+}
