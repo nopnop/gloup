@@ -4,6 +4,7 @@ var Promise = require('bluebird')
 var bach = require('bach')
 var debug = require('debug')('gloup')
 var resolve = require('path').resolve
+var asyncDone = require('async-done')
 
 /**
  * Create a decorated task array
@@ -49,8 +50,8 @@ module.exports = function (taskPath, tasks, argv) {
             debug('⇢ %s', taskName)
             return Promise.resolve()
           },
-          function () {
-            return run(argv)
+          function (callback) {
+            return asyncDone(run, callback)
           },
           function () {
             debug('⇠ %s', taskName)

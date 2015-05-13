@@ -21,6 +21,7 @@
     "prepublish": "babel src --out-dir lib"
   },
   "dependencies": {
+    "async-done": "^1.0.0",
     "bach": "^0.4.1",
     "bluebird": "^2.9.25",
     "debug": "^2.2.0",
