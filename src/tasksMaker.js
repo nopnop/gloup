@@ -51,7 +51,16 @@ module.exports = function (taskPath, tasks, argv) {
             return Promise.resolve()
           },
           function (callback) {
-            return asyncDone(run, callback)
+            return new Promise(function (resolve, reject) {
+              asyncDone(run, function (err, result) {
+                if (err) {
+                  console.error(err.stack)
+                  reject(err)
+                } else {
+                  resolve(result)
+                }
+              })
+            })
           },
           function () {
             debug('⇠ %s', taskName)
