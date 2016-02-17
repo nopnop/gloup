@@ -12,28 +12,27 @@
   },
   "homepage": "https://github.com/nopnop/gloup/htmly",
   "licenses": "MIT",
-  "main": "lib/gloup",
+  "main": "src/gloup",
   "engines": {
-    "node": ">= 0.12"
+    "node": ">= 4"
   },
   "scripts": {
-    "standard": "./node_modules/.bin/standard",
-    "prepublish": "babel src --out-dir lib"
+    "standard": "./node_modules/.bin/standard"
   },
   "dependencies": {
-    "async-done": "^1.0.0",
-    "bach": "^0.4.1",
-    "bluebird": "^2.9.25",
+    "async-done": "^1.2.0",
+    "bach": "^0.5.0",
+    "bluebird": "^3.3.1",
     "debug": "^2.2.0",
-    "globby": "^2.0.0",
-    "minimist": "^1.1.1",
-    "node-dev": "2.6.1"
+    "globby": "^4.0.0",
+    "minimist": "^1.2.0",
+    "ms": "^0.7.1",
+    "node-dev": "^3.0.0"
   },
   "devDependencies": {
-    "babel": "^5.2.17",
     "expect.js": "*",
-    "jshint": "*",
-    "mocha": "*"
+    "jshint": "^2.9.1",
+    "mocha": "^2.4.5"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org/"
@@ -46,8 +45,6 @@
     "stream"
   ],
   "standard": {
-    "ignore": [
-      "**/lib/**"
-    ]
+    "ignore": []
   }
 }
