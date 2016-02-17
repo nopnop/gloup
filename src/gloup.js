@@ -1,18 +1,17 @@
 'use strict'
 
 var minimist = require('minimist')
-var argv = minimist(process.argv.slice(2), {boolean: true})
-if (!argv.quiet) {
+if (!~process.argv.slice(2).indexOf('--quiet')) {
   process.env.DEBUG = (process.env.DEBUG || '') + ' gloup gloup:*'
 }
 
-var debug = require('debug')('gloup')
 var globby = require('globby')
 var basename = require('path').basename
 var resolve = require('path').resolve
 var makeSeries = require('./series')
 var makeParallel = require('./parallel')
 var dev = require('node-dev')
+var path = require('path')
 
 module.exports = gloup
 
@@ -42,12 +41,40 @@ function gloup (tasksPath, options) {
     .map(function (file) { return basename(file, '.js') })
 
   /**
+   * Retrieve task help
+   * @param  {string} taskName Task name
+   * @param  {boolean} short   Try to extract short help (first line)
+   * @return {string}
+   */
+  function getTaskHelp (taskName, short) {
+    var help
+    try {
+      help = require(path.join(tasksPath, taskName)).help()
+      return short ? help.split('\n')[0] : help
+    } catch (e) {
+      return ''
+    }
+  }
+
+  /**
    * Print usage message then exit
    */
   function usage () {
-    let taskList = taskNames.map(task => '    - ' + task).join('\n')
-    let usage = options.usage || ''
-    console.log(`
+    let firstTask = process.argv[3]
+    let taskHelp = firstTask ? getTaskHelp(firstTask) : null
+
+    if (taskHelp) {
+      taskHelp = taskHelp.split('\n').map(l => '    ' + l).join('\n')
+      console.log(`    Usage: ${appName} [node options] ${firstTask} [options]\n\n${taskHelp}\n`)
+    } else {
+      let taskList = taskNames.map((task) => {
+        let help = getTaskHelp(task, true)
+        return '    - ' + task + (help ? '\n        ' + help : '')
+      })
+      .join('\n')
+
+      let usage = options.usage || ''
+      console.log(`
     Usage: ${appName} [node options] <tasks...> [options]
 
     Tasks are executed in series, options is shared with all tasks
@@ -55,7 +82,7 @@ function gloup (tasksPath, options) {
 
     Options:
 
-      -h, --help        Show this message
+      -h, --help [task] Show this message or the task's help
       --quiet           Disable verbose message (based on debug)
 
     Tasks:
@@ -63,31 +90,43 @@ function gloup (tasksPath, options) {
 ${taskList}
 
 ${usage}
-    `)
+      `)
+    }
     process.exit(0)
   }
 
   // Show usage if --help or no task are listed
-  if (argv.help || argv.h || !argv._.length) {
-    usage()
+  if (~process.argv.slice(2).indexOf('--help') || ~process.argv.slice(2).indexOf('-h') || !process.argv.slice(2).length) {
+    let helpForTask = process.argv[3]
+    usage(helpForTask)
   }
 
   var nodeDevIndex = args.indexOf('--executed-with-node-dev')
+
   if (!~nodeDevIndex) {
-    let devArgs = (options.flags || [])
-    let flagCli = false
+    let script = cliPath
+    let firstTask
+    let scriptArgs = []
+    let nodeArgs = (options.flags || []).concat(process.execArgv)
+    let opts = {} // node-dev options (not used yet)
+
     args.forEach(arg => {
-      if (!/^-/.test(arg) && !flagCli) {
-        devArgs.push(cliPath)
-        flagCli = true
+      if (!firstTask) {
+        if (!/^-/.test(arg)) {
+          firstTask = arg
+        }
+        scriptArgs.push(arg)
+      } else {
+        scriptArgs.push(arg)
       }
-      devArgs.push(arg)
     })
-    devArgs.push('--executed-with-node-dev')
-    // debug('execute','node-dev ' + devArgs.join(' '))
-    dev(devArgs)
+
+    scriptArgs.unshift('--executed-with-node-dev')
+    dev(script, scriptArgs, nodeArgs, opts)
     return
   }
+
+  var argv = minimist(process.argv.slice(2), {boolean: true})
 
   delete argv['executed-with-node-dev']
 

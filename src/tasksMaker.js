@@ -5,6 +5,7 @@ var bach = require('bach')
 var debug = require('debug')('gloup')
 var resolve = require('path').resolve
 var asyncDone = require('async-done')
+var ms = require('ms')
 
 /**
  * Create a decorated task array
@@ -16,14 +17,9 @@ var asyncDone = require('async-done')
  * @param  {Array} tasks
  *                 Array of task function or task name
  *
- * @param  {Object} [argv]
- *                  Optional option object to pass to tasks
- *
  * @return {Array}  Array of functions
  */
-module.exports = function (taskPath, tasks, argv) {
-  argv = argv || {}
-
+module.exports = function (taskPath, tasks) {
   return tasks.map(task => {
     let run
     let taskName
@@ -35,7 +31,7 @@ module.exports = function (taskPath, tasks, argv) {
       taskName = task
       try {
         run = require(resolve(taskPath, taskName))
-      } catch(e) {
+      } catch (e) {
         console.error('Task not found (or parse error, see trace below): ', taskName)
         console.error('')
         console.error(e.stack)
@@ -45,8 +41,10 @@ module.exports = function (taskPath, tasks, argv) {
 
     return function () {
       return new Promise((resolve, reject) => {
+        var startTime
         var fn = bach.series(
           function () {
+            startTime = Date.now()
             debug('⇢ %s', taskName)
             return Promise.resolve()
           },
@@ -63,7 +61,8 @@ module.exports = function (taskPath, tasks, argv) {
             })
           },
           function () {
-            debug('⇠ %s', taskName)
+            var duration = Date.now() - startTime
+            debug('⇠ %s (%s)', taskName, ms(duration))
             return Promise.resolve()
           }
         )
