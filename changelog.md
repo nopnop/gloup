@@ -1,6 +1,13 @@
 Changelog
 =========
 
+v3.0.0 - Querulous Elephant (2016-02-17) 
+----------------------------------------------------------------------
+
+  - feat: Add task help and task duration
+  - refactor: Remove builded scripts
+
+
 v2.0.3 - Dowdy Lobster (2015-11-10) 
 ----------------------------------------------------------------------
 
