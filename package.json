@@ -10,7 +10,7 @@
   "bugs": {
     "url": "https://github.com/nopnop/gloup/issues"
   },
-  "homepage": "https://github.com/nopnop/gloup/htmly",
+  "homepage": "https://github.com/nopnop/gloup",
   "licenses": "MIT",
   "main": "src/gloup",
   "engines": {
@@ -20,19 +20,19 @@
     "standard": "./node_modules/.bin/standard"
   },
   "dependencies": {
-    "async-done": "^1.2.0",
+    "async-done": "^1.2.2",
     "bach": "^0.5.0",
-    "bluebird": "^3.3.1",
+    "bluebird": "^3.4.1",
     "debug": "^2.2.0",
-    "globby": "^4.0.0",
+    "globby": "^5.0.0",
     "minimist": "^1.2.0",
     "ms": "^0.7.1",
-    "node-dev": "^3.0.0"
+    "node-dev": "^3.1.3"
   },
   "devDependencies": {
     "expect.js": "*",
-    "jshint": "^2.9.1",
-    "mocha": "^2.4.5"
+    "jshint": "^2.9.2",
+    "mocha": "^2.5.3"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org/"
