@@ -3,6 +3,10 @@
 
 Another mini task runner based on bach
 
+## Deprecated
+
+**This project is no longer maintained**.
+
 ## Features
 
   - One task = one file = one function
