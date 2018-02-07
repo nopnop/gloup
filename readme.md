@@ -1,14 +1,13 @@
 # gloup
 [![NPM version](https://badge-me.herokuapp.com/api/npm/gloup.png)](http://badges.enytc.com/for/npm/gloup)
 
-Another mini task runner based on bach and node-dev.
+Another mini task runner based on bach
 
 ## Features
 
   - One task = one file = one function
   - Task on the command line are executed in series
   - Compose task in parallel or in series (based on [bach](https://www.npmjs.com/package/bach))
-  - Watch for changes with [node-dev](https://github.com/fgnass/node-dev))
   - Supports node's (or iojs) flags on the command line
 
 This tool as been drafted for some specific needs: use it if you like, enhance it if you don't. Else [gulp](http://gulpjs.com/) is a better fit for you.
@@ -101,7 +100,6 @@ module.exports = series([
 **With node options:**
 ```shell
 > myapp --debug --es_staging serve
-  gloup execute myapp with node-dev +0ms
 Debugger listening on port 5858
   gloup ⇢ serve +0ms
   gloup ⇠ serve +2ms

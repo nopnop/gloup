@@ -10,7 +10,6 @@ var basename = require('path').basename
 var resolve = require('path').resolve
 var makeSeries = require('./series')
 var makeParallel = require('./parallel')
-var dev = require('node-dev')
 var path = require('path')
 
 module.exports = gloup
@@ -101,30 +100,30 @@ ${usage}
     usage(helpForTask)
   }
 
-  var nodeDevIndex = args.indexOf('--executed-with-node-dev')
+  // var nodeDevIndex = args.indexOf('--executed-with-node-dev')
 
-  if (!~nodeDevIndex) {
-    let script = cliPath
-    let firstTask
-    let scriptArgs = []
-    let nodeArgs = (options.flags || []).concat(process.execArgv)
-    let opts = {} // node-dev options (not used yet)
-
-    args.forEach(arg => {
-      if (!firstTask) {
-        if (!/^-/.test(arg)) {
-          firstTask = arg
-        }
-        scriptArgs.push(arg)
-      } else {
-        scriptArgs.push(arg)
-      }
-    })
-
-    scriptArgs.unshift('--executed-with-node-dev')
-    dev(script, scriptArgs, nodeArgs, opts)
-    return
-  }
+  // if (!~nodeDevIndex) {
+  //   let script = cliPath
+  //   let firstTask
+  //   let scriptArgs = []
+  //   let nodeArgs = (options.flags || []).concat(process.execArgv)
+  //   let opts = {} // node-dev options (not used yet)
+  //
+  //   args.forEach(arg => {
+  //     if (!firstTask) {
+  //       if (!/^-/.test(arg)) {
+  //         firstTask = arg
+  //       }
+  //       scriptArgs.push(arg)
+  //     } else {
+  //       scriptArgs.push(arg)
+  //     }
+  //   })
+  //
+  //   scriptArgs.unshift('--executed-with-node-dev')
+  //   dev(script, scriptArgs, nodeArgs, opts)
+  //   return
+  // }
 
   var argv = minimist(process.argv.slice(2), {boolean: true})
 
